@@ -6,8 +6,7 @@ import re
 
 
 def get_chunks(limit, total):
-    total = 20491
-    limit = 1000
+    '''This function splits a big chunk into smaller chunks of which size is equal to limit'''
     current = 0
     chunks = []
     while current < total:
@@ -18,6 +17,7 @@ def get_chunks(limit, total):
 
 
 def clean_text(text):
+    '''This funtion removes punctuation and clean text'''
     text = re.sub(r'[^\w\s]', '', text)
     text = re.sub(r'\bnt\b', 'not', text)
     text = re.sub(r'\\s{2,}', r'\.', text)
@@ -25,6 +25,7 @@ def clean_text(text):
 
 
 def get_features(text):
+    '''This function extracts meaningful phrases using spacy rule-based models'''
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(text)
     matcher = Matcher(nlp.vocab)
@@ -36,7 +37,7 @@ def get_features(text):
     features = ''
     for match_id, start, end in matches:
         span = doc[start: end]
-        features +=(span.text) + '\n'
+        features += (span.text) + '\n'
     return features
 
 
@@ -44,7 +45,7 @@ def write_chunks(infile, outfile, chunks, chunk_part):
     '''Reads a specific range of lines from input file, extract the features, and append them to the outfile'''
     with open(infile, "r", encoding="utf-8") as f:
         for i, l in enumerate(f):
-            if i in chunks[chunk_part]:
+            if i in range(chunks[chunk_part][0], chunks[chunk_part][1]):
                 with open(outfile, "a", encoding="utf-8") as extracted:
                     extracted.write(get_features(l))
             else:
@@ -57,8 +58,11 @@ df['Review'] = np.vectorize(clean_text)(df['Review'])
 # with open('reviews.txt', "w", encoding="utf-8") as f:
 #     f.writelines("%s\n" % l for l in df['Review'].tolist())
 
+chunk_numbers = 20
 with open('reviews.txt', "r", encoding="utf-8") as f:
-    lines = sum(1 for _ in f)
-    chunks = get_chunks(lines // 20, lines)
+    line_numbers = sum(1 for _ in f)
+    chunks = get_chunks(line_numbers // chunk_numbers, line_numbers)
 
-write_chunks('reviews.txt', 'extracted reviews.txt', chunks, 0)
+# for i in range(len(chunks)):
+#     write_chunks('reviews.txt', 'extracted reviews.txt', chunks, i)
+write_chunks('reviews.txt', 'extracted reviews.txt', chunks, 22)
