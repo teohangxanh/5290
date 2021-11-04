@@ -18,13 +18,6 @@ def get_chunks(limit, total):
     return chunks
 
 
-def clean_text(text):
-    text = re.sub(r'[^\w\s]', '', text)
-    text = re.sub(r'\bnt\b', 'not', text)
-    text = re.sub(r'\\s{2,}', r'\.', text)
-    return text
-
-
 def get_features(text):
     '''Uses Spacy rule-based matcher to extract phrases from a text'''
     nlp = spacy.load("en_core_web_sm")
@@ -38,7 +31,7 @@ def get_features(text):
     features = ''
     for match_id, start, end in matches:
         span = doc[start: end]
-        features +=(span.text) + '\n'
+        features += (span.text) + '\n'
     return features
 
 
