@@ -4,6 +4,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Code" />
+    <orderEntry type="module" module-name="Youtube" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
