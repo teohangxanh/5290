@@ -4,7 +4,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Code" />
-    <orderEntry type="module" module-name="Youtube" />
+    <orderEntry type="module" module-name="UFO" />
+    <orderEntry type="module" module-name="AmExpert Code Lab" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
